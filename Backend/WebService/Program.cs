@@ -1,3 +1,6 @@
+using Database.Entities;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 var configuration = builder.Configuration;
@@ -7,6 +10,14 @@ var services = builder.Services;
 services.AddControllers();
 services.AddSwaggerDocument();
 services.AddRazorPages();
+
+// Add Database Context.
+builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+{
+    // Set the default tracking behavior to no tracking.
+    options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
+    options.UseNpgsql(configuration.GetConnectionString("Database"));
+});
 
 var app = builder.Build();
 

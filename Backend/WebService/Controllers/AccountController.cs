@@ -1,10 +1,14 @@
 using Database.Entities;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebService.Contracts.RequestModels;
+using WebService.Contracts.ResponseModels;
 
 namespace WebService.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class AccountController : ControllerBase
     {
@@ -13,6 +17,21 @@ namespace WebService.Controllers
         public AccountController(ApplicationDbContext db)
         {
             _db = db;
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<List<UserListItem>>> GetUsers(int page = 1, int perPage = 1)
+        {
+            var users = await _db.Users
+                .Select(x => new UserListItem
+                {
+                    Email = x.Email,
+                })
+                .Skip(perPage * (page - 1))
+                .Take(perPage)
+                .ToListAsync();
+
+            return users;
         }
 
         [HttpPost("register")]

@@ -12,9 +12,16 @@ An opinionated application development boilerplate. Including:
 
 ```bash
 # Backend
+$ cd Backend
+$ cd WebService
 $ dotnet restore
 
-# Frontend and Mobile
+# Frontend
+$ cd Frontend
+$ npm ci
+
+# Mobile
+$ cd Mobile
 $ npm ci
 ```
 
@@ -22,17 +29,21 @@ $ npm ci
 
 - Install all the dependencies.
 - Run the SQL script in the ``Backend/Database/Migrations`` folder.
-- If you want to change the database, Run ``./Generate-Entities`` to create new entities.
+- If you want to change the database, Run ``./Generate-Entities`` to create new entities based on table on the DB.
 
 ## Running the app
 
 ```bash
 # Backend
+$ cd Backend
+$ cd WebService
 $ dotnet run
 
 # Frontend
+$ cd Frontend
 $ npm run dev
 
 # Mobile
+$ cd Mobile
 $ npm run start
 ```

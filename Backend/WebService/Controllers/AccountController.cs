@@ -2,6 +2,7 @@ using Database.Entities;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using OpenIddict.Validation.AspNetCore;
 using WebService.Contracts.RequestModels;
 using WebService.Contracts.ResponseModels;
 
@@ -20,6 +21,7 @@ namespace WebService.Controllers
         }
 
         [HttpGet]
+        [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme)]
         public async Task<ActionResult<List<UserListItemResponse>>> GetUsers(int page = 1, int perPage = 1)
         {
             var users = await _db.Users

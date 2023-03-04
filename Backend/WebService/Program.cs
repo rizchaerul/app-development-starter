@@ -17,7 +17,7 @@ services.AddRazorPages();
 
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: ApplicationConstants.CorsPolicy, policy  =>
+    options.AddPolicy(name: ApplicationConstants.CorsPolicy, policy =>
     {
         policy.AllowAnyOrigin();
         policy.AllowAnyHeader();
@@ -88,6 +88,11 @@ builder.Services
             .EnableTokenEndpointPassthrough()
             .EnableUserinfoEndpointPassthrough()
             .EnableLogoutEndpointPassthrough();
+    })
+    .AddValidation(options =>
+    {
+        options.UseLocalServer();
+        options.UseAspNetCore();
     });
 
 builder.Services.AddHostedService<OpeniddictClientInitializer>();

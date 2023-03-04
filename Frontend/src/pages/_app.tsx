@@ -1,17 +1,33 @@
+import { NextPage } from "next";
 import type { AppProps } from "next/app";
-import { Fragment, useEffect, useState } from "react";
+import Head from "next/head";
+import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
 import { silentLogin } from "src/functions/authenticationHelper";
 import { createUserManager } from "src/functions/createUserManager";
 
 import "../styles/site.scss";
 
-export default function MyApp({ Component, pageProps }: AppProps) {
-    const [ready, setReady] = useState(false);
-    const [, setLoading] = useState(true);
+/**
+ * Custom AppProps type for layout support.
+ */
+type AppPropsWithLayout = AppProps & {
+    Component: NextPageWithLayout;
+};
+
+/**
+ * Custom page type for layout support.
+ * Reference: https://nextjs.org/docs/basic-features/layouts
+ */
+export type NextPageWithLayout<T = {}> = NextPage<T> & {
+    getLayout?: (page: ReactElement) => ReactNode;
+};
+
+export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
+    const [loading, setLoading] = useState(true);
+
+    const getLayout = Component.getLayout ?? ((page) => page);
 
     useEffect(() => {
-        setReady(true);
-
         (async () => {
             const userManager = createUserManager();
             const user = await userManager.getUser();
@@ -20,18 +36,20 @@ export default function MyApp({ Component, pageProps }: AppProps) {
                 setLoading(false);
             }
 
-            userManager.events.addAccessTokenExpiring(() =>
-                silentLogin()
-            );
+            userManager.events.addAccessTokenExpiring(() => silentLogin());
             userManager.events.addAccessTokenExpired(() =>
                 silentLogin(setLoading)
             );
         })();
     }, []);
 
-    if (!ready) {
-        return <Fragment />;
-    }
+    return (
+        <Fragment>
+            <Head>
+                <title>Frontend</title>
+            </Head>
 
-    return <Component {...pageProps} />;
+            {!loading && getLayout(<Component {...pageProps} />)}
+        </Fragment>
+    );
 }

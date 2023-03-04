@@ -12,7 +12,7 @@ const OpenIdConfiguration: UserManagerSettings = {
     redirect_uri: "http://localhost:3000/account/login-callback",
     silent_redirect_uri: "http://localhost:3000/silent-renew.html",
 
-    scope: "openid offline_access api",
+    scope: "openid offline_access email profile api",
     response_type: "code",
 
     userStore:

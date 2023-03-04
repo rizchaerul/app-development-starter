@@ -62,6 +62,8 @@ namespace WebService.Services
                         OpenIddictConstants.Permissions.GrantTypes.AuthorizationCode,
                         OpenIddictConstants.Permissions.GrantTypes.RefreshToken,
 
+                        OpenIddictConstants.Permissions.Scopes.Email,
+                        OpenIddictConstants.Permissions.Scopes.Profile,
                         OpenIddictConstants.Permissions.Prefixes.Scope + "api",
 
                         OpenIddictConstants.Permissions.ResponseTypes.Code,

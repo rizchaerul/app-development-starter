@@ -41,6 +41,15 @@ builder.Services
         options.LoginPath = "/account/login";
     });
 
+services.AddAuthorization(options =>
+{
+    options.AddPolicy(ApplicationConstants.ApiScopePolicy, policy =>
+    {
+        policy.RequireAuthenticatedUser();
+        policy.RequireClaim(OpenIddictConstants.Claims.Private.Scope, "api");
+    });
+});
+
 builder.Services
     .AddOpenIddict()
     // Register the OpenIddict core components.
@@ -78,6 +87,8 @@ builder.Services
             .DisableAccessTokenEncryption();
 
         // Register scopes (permissions)
+        options.RegisterScopes("email");
+        options.RegisterScopes("profile");
         options.RegisterScopes("api");
 
         // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.

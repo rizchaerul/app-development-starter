@@ -2,6 +2,7 @@ using Database.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Abstractions;
+using WebService.Contracts.Constants;
 using WebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,16 @@ var services = builder.Services;
 services.AddControllers();
 services.AddSwaggerDocument();
 services.AddRazorPages();
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: ApplicationConstants.CorsPolicy, policy  =>
+    {
+        policy.AllowAnyOrigin();
+        policy.AllowAnyHeader();
+        policy.AllowAnyMethod();
+    });
+});
 
 // Add Database Context.
 builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
@@ -62,8 +73,8 @@ builder.Services
 
         // Encryption and signing of tokens
         options
-            .AddEphemeralEncryptionKey()
-            .AddEphemeralSigningKey()
+            .AddDevelopmentEncryptionCertificate()
+            .AddDevelopmentSigningCertificate()
             .DisableAccessTokenEncryption();
 
         // Register scopes (permissions)
@@ -96,6 +107,7 @@ else if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseCors(ApplicationConstants.CorsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

@@ -20,10 +20,10 @@ namespace WebService.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<List<UserListItem>>> GetUsers(int page = 1, int perPage = 1)
+        public async Task<ActionResult<List<UserListItemResponse>>> GetUsers(int page = 1, int perPage = 1)
         {
             var users = await _db.Users
-                .Select(x => new UserListItem
+                .Select(x => new UserListItemResponse
                 {
                     Email = x.Email,
                 })

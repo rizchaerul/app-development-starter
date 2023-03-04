@@ -145,14 +145,20 @@ namespace WebService.Controllers
             return Ok(new
             {
                 Sub = user?.Id,
+                user?.Email,
             });
         }
 
         [HttpGet("endsession")]
-        public async Task<IActionResult> Logout()
+        public async Task<IActionResult> Logout([FromQuery] string post_logout_redirect_uri)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
+
+            if (string.IsNullOrEmpty(post_logout_redirect_uri) == false)
+            {
+                return Redirect(post_logout_redirect_uri);
+            }
 
             return Ok();
         }

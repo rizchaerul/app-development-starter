@@ -1,5 +1,8 @@
 using Database.Entities;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using OpenIddict.Abstractions;
+using WebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,7 +20,66 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     // Set the default tracking behavior to no tracking.
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
     options.UseNpgsql(configuration.GetConnectionString("Database"));
+    options.UseOpenIddict();
 });
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+    {
+        options.LoginPath = "/account/login";
+    });
+
+builder.Services
+    .AddOpenIddict()
+    // Register the OpenIddict core components.
+    .AddCore(options =>
+    {
+        // Configure OpenIddict to use the EF Core stores/models.
+        options
+            .UseEntityFrameworkCore()
+            .UseDbContext<ApplicationDbContext>();
+    })
+    // Register the OpenIddict server components.
+    .AddServer(options =>
+    {
+        // PKCE
+        options
+            .AllowAuthorizationCodeFlow()
+            .RequireProofKeyForCodeExchange();
+
+        // Client Credentials
+        options.AllowClientCredentialsFlow();
+        options.AllowRefreshTokenFlow();
+
+        options.RegisterClaims(OpenIddictConstants.Claims.Email);
+
+        options
+            .SetAuthorizationEndpointUris("/connect/authorize")
+            .SetTokenEndpointUris("/connect/token")
+            .SetUserinfoEndpointUris("/connect/userinfo")
+            .SetLogoutEndpointUris("/connect/endsession");
+
+        // Encryption and signing of tokens
+        options
+            .AddEphemeralEncryptionKey()
+            .AddEphemeralSigningKey()
+            .DisableAccessTokenEncryption();
+
+        // Register scopes (permissions)
+        options.RegisterScopes("api");
+
+        // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.
+        options
+            .UseAspNetCore()
+            .DisableTransportSecurityRequirement()
+            .EnableAuthorizationEndpointPassthrough()
+            .EnableTokenEndpointPassthrough()
+            .EnableUserinfoEndpointPassthrough()
+            .EnableLogoutEndpointPassthrough();
+    });
+
+builder.Services.AddHostedService<OpeniddictClientInitializer>();
 
 var app = builder.Build();
 
@@ -34,6 +96,7 @@ else if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
+app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 app.MapRazorPages();

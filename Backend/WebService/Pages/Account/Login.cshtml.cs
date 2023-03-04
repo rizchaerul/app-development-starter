@@ -48,10 +48,11 @@ namespace WebService.Pages.Account
                 ModelState.AddModelError("Email", "Email is not registered.");
                 return Page();
             }
-            
+
             var isPasswordCorrect = BCrypt.Net.BCrypt.Verify(Password, user.Password);
 
-            if (!isPasswordCorrect) {
+            if (!isPasswordCorrect)
+            {
                 ModelState.AddModelError("Password", "Password is not correct.");
                 return Page();
             }

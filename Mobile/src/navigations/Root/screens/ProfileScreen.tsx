@@ -1,5 +1,5 @@
 import { FC, Fragment } from "react";
-import { RootNavigationStackScreenProps } from "../../App";
+import { RootNavigationStackScreenProps } from "../RootNavigationStack";
 
 export const ProfileScreen: FC<
     RootNavigationStackScreenProps<"ProfileScreen">

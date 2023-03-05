@@ -1,7 +1,7 @@
 import { FC } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
-import { RootNavigationStackScreenProps } from "../../App";
+import { RootNavigationStackScreenProps } from "../RootNavigationStack";
 
 export const HomeScreen: FC<RootNavigationStackScreenProps<"HomeScreen">> = (
     props

@@ -7,7 +7,7 @@ import { FC, Fragment } from "react";
 import { Pallete } from "../../constants/Pallete";
 import { RootNavigationStackParams } from "./RootNavigationStackParams";
 import { HomeScreen } from "./screens/HomeScreen";
-import { ProfileScreen } from "./screens/ProfileScreen";
+import { ProfileScreen } from "./screens/Profile/ProfileScreen";
 
 export type RootNavigationStackScreenProps<
     T extends keyof RootNavigationStackParams

@@ -4,7 +4,7 @@ import { Fragment, useEffect, useState } from "react";
 import { createApiClientWithAuth } from "src/functions/createApiClientWithAuth";
 import { createUserManager } from "src/functions/createUserManager";
 
-const IndexPage: NextPage = () => {
+const Page: NextPage = () => {
     const [userManager, setUserManager] = useState<UserManager>();
     const [user, setUser] = useState<User>();
 
@@ -64,4 +64,4 @@ const IndexPage: NextPage = () => {
     );
 };
 
-export default IndexPage;
+export default Page;

@@ -1,44 +1,36 @@
-import { NextPage } from "next";
-import type { AppProps } from "next/app";
 import Head from "next/head";
-import { Fragment, ReactElement, ReactNode, useEffect, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
+import { Loading } from "src/components/Loading";
 import { silentLogin } from "src/functions/authenticationHelper";
 import { createUserManager } from "src/functions/createUserManager";
+import { useAppLoading } from "src/hooks/useAppLoading";
+import { AppPropsWithLayout } from "src/types/AppPropsWithLayout";
 
 import "../styles/site.scss";
 
-/**
- * Custom AppProps type for layout support.
- */
-type AppPropsWithLayout = AppProps & {
-    Component: NextPageWithLayout;
-};
-
-/**
- * Custom page type for layout support.
- * Reference: https://nextjs.org/docs/basic-features/layouts
- */
-export type NextPageWithLayout<T = {}> = NextPage<T> & {
-    getLayout?: (page: ReactElement) => ReactNode;
-};
-
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-    const [loading, setLoading] = useState(true);
-
     const getLayout = Component.getLayout ?? ((page) => page);
 
+    const [getAppLoading, setAppLoading, appLoading] = useAppLoading("_app");
+    const [getAppLoadingLogin, setAppLoadingLogin] =
+        useAppLoading("silentLogin");
+
+    const [ready, setReady] = useState(false);
+
     useEffect(() => {
+        setReady(true);
+
         (async () => {
             const userManager = createUserManager();
             const user = await userManager.getUser();
 
             if (!user?.expired) {
-                setLoading(false);
+                setAppLoading(false);
             }
 
             userManager.events.addAccessTokenExpiring(() => silentLogin());
             userManager.events.addAccessTokenExpired(() =>
-                silentLogin(setLoading)
+                silentLogin(setAppLoadingLogin)
             );
         })();
     }, []);
@@ -49,7 +41,15 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 <title>Frontend</title>
             </Head>
 
-            {!loading && getLayout(<Component {...pageProps} />)}
+            {ready && (
+                <Fragment>
+                    <Loading loading={appLoading} />
+
+                    {!getAppLoading() &&
+                        !getAppLoadingLogin() &&
+                        getLayout(<Component {...pageProps} />)}
+                </Fragment>
+            )}
         </Fragment>
     );
 }

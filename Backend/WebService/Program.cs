@@ -1,8 +1,12 @@
 using Database.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.EntityFrameworkCore;
+using NSwag;
+using NSwag.AspNetCore;
+using NSwag.Generation.Processors.Security;
 using OpenIddict.Abstractions;
 using WebService.Contracts.Constants;
+using WebService.Contracts.Settings;
 using WebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,8 +16,31 @@ var services = builder.Services;
 
 // Add services to the container.
 services.AddControllers();
-services.AddSwaggerDocument();
 services.AddRazorPages();
+
+services.AddSwaggerDocument(options =>
+{
+    // Get settings from appsettings.json
+    var openIdConnectOptions = configuration
+        .GetSection(OpenIdConnectSettings.SectionName)
+        .Get<OpenIdConnectSettings>();
+
+    options.AddSecurity("bearer", new OpenApiSecurityScheme
+    {
+        AuthorizationUrl = $"{openIdConnectOptions?.Authority}/connect/authorize",
+        TokenUrl = $"{openIdConnectOptions?.Authority}/connect/token",
+
+        Flow = OpenApiOAuth2Flow.AccessCode,
+        Type = OpenApiSecuritySchemeType.OAuth2,
+
+        Scopes = new Dictionary<string, string>
+        {
+            { $"api", "Access APIs" },
+        },
+    });
+
+    options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("bearer"));
+});
 
 builder.Services.AddCors(options =>
 {
@@ -114,7 +141,15 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseOpenApi();
-    app.UseSwaggerUi3();
+    app.UseSwaggerUi3(options =>
+    {
+        options.OAuth2Client = new OAuth2ClientSettings
+        {
+            ClientId = "frontend",
+            ClientSecret = null,
+            UsePkceWithAuthorizationCodeGrant = true,
+        };
+    });
 }
 else if (!app.Environment.IsDevelopment())
 {

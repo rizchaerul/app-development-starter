@@ -150,7 +150,7 @@ namespace WebService.Controllers
         }
 
         [HttpGet("endsession")]
-        public async Task<IActionResult> Logout([FromQuery] string post_logout_redirect_uri)
+        public async Task<IActionResult> Logout([FromQuery] string? post_logout_redirect_uri)
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             await HttpContext.SignOutAsync(OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);

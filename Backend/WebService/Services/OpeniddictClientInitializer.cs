@@ -52,6 +52,7 @@ namespace WebService.Services
                     {
                         new Uri("http://localhost:3000/account/login-callback"),
                         new Uri("http://localhost:3000/silent-renew.html"),
+                        new Uri("http://localhost:5000/swagger/oauth2-redirect.html"),
                     },
                     Permissions =
                     {

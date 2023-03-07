@@ -17,6 +17,9 @@ var services = builder.Services;
 // Add services to the container.
 services.AddControllers();
 services.AddRazorPages();
+services.AddHttpContextAccessor();
+
+services.AddHostedService<OpeniddictClientInitializer>();
 
 services.AddSwaggerDocument(options =>
 {
@@ -42,7 +45,7 @@ services.AddSwaggerDocument(options =>
     options.OperationProcessors.Add(new AspNetCoreOperationSecurityScopeProcessor("bearer"));
 });
 
-builder.Services.AddCors(options =>
+services.AddCors(options =>
 {
     options.AddPolicy(name: ApplicationConstants.CorsPolicy, policy =>
     {
@@ -53,7 +56,7 @@ builder.Services.AddCors(options =>
 });
 
 // Add Database Context.
-builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
+services.AddDbContextPool<ApplicationDbContext>(options =>
 {
     // Set the default tracking behavior to no tracking.
     options.UseQueryTrackingBehavior(QueryTrackingBehavior.NoTracking);
@@ -61,7 +64,7 @@ builder.Services.AddDbContextPool<ApplicationDbContext>(options =>
     options.UseOpenIddict();
 });
 
-builder.Services
+services
     .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
     {
@@ -77,7 +80,7 @@ services.AddAuthorization(options =>
     });
 });
 
-builder.Services
+services
     .AddOpenIddict()
     // Register the OpenIddict core components.
     .AddCore(options =>
@@ -132,8 +135,6 @@ builder.Services
         options.UseLocalServer();
         options.UseAspNetCore();
     });
-
-builder.Services.AddHostedService<OpeniddictClientInitializer>();
 
 var app = builder.Build();
 

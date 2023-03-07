@@ -1,3 +1,7 @@
+DROP schema if EXISTS public cascade;
+
+CREATE schema if NOT EXISTS public;
+
 CREATE TABLE
     "OpenIddictApplications" (
         "Id" text NOT NULL,

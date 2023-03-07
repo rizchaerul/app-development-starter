@@ -1,9 +1,9 @@
-DROP schema if EXISTS public cascade;
+DROP schema if EXISTS master cascade;
 
-CREATE schema if NOT EXISTS public;
+CREATE schema if NOT EXISTS master;
 
 CREATE TABLE
-    users (
+    master.users (
         id uuid PRIMARY key,
         email text NOT NULL UNIQUE,
         password text NOT NULL,

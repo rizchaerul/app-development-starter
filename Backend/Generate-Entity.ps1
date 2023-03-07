@@ -14,7 +14,7 @@ $ConnectionString = "Host=$($DbHost); Port=$($DbPort); Database=$($DbName); User
 # Remove folder
 Remove-Item -Recurse $EntityDir;
 
-dotnet-ef dbcontext scaffold $ConnectionString Npgsql.EntityFrameworkCore.PostgreSQL --context $ContextName --data-annotations --force --verbose --output-dir $EntityDir --no-onconfiguring --schema public;
+dotnet-ef dbcontext scaffold $ConnectionString Npgsql.EntityFrameworkCore.PostgreSQL --context $ContextName --data-annotations --force --verbose --output-dir $EntityDir --no-onconfiguring --schema master;
 
 # Remove default constructor
 # See: https://github.com/dotnet/efcore/issues/12604

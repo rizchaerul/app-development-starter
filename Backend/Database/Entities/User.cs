@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Database.Entities;
 
-[Table("users")]
+[Table("users", Schema = "master")]
 [Index("Email", Name = "users_email_key", IsUnique = true)]
 public partial class User
 {

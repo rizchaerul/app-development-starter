@@ -1,5 +1,5 @@
 INSERT INTO
-    users
+    master.users
 VALUES
     (
         'b17f02db-5a69-451f-ab09-3482c6fffdee',

@@ -28,7 +28,7 @@ namespace WebService.Controllers
             workbook.SaveAs(stream);
 
             stream.Position = 0;
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "filename");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Excel File");
         }
     }
 }

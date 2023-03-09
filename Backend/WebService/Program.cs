@@ -117,8 +117,8 @@ services
             .DisableAccessTokenEncryption();
 
         // Register scopes (permissions)
-        options.RegisterScopes("email");
-        options.RegisterScopes("profile");
+        options.RegisterScopes(OpenIddictConstants.Scopes.Email);
+        options.RegisterScopes(OpenIddictConstants.Scopes.Profile);
         options.RegisterScopes("api");
 
         // Register the ASP.NET Core host and configure the ASP.NET Core-specific options.

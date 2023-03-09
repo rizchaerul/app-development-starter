@@ -42,7 +42,10 @@ namespace WebService.Services
                         OpenIddictConstants.Permissions.ResponseTypes.Code,
                     }
                 }, cancellationToken);
+            }
 
+            if (await manager.FindByClientIdAsync("frontend", cancellationToken) is null)
+            {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
                     ClientId = "frontend",

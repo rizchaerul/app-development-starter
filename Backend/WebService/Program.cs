@@ -1,5 +1,6 @@
 using Database.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.EntityFrameworkCore;
 using NSwag;
 using NSwag.AspNetCore;
@@ -11,6 +12,17 @@ using WebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Heroku and Railway use PORT environment variable to store the port the we should be using.
+var port = Environment.GetEnvironmentVariable("PORT");
+
+if (!string.IsNullOrWhiteSpace(port))
+{
+    builder.WebHost.ConfigureKestrel(options =>
+    {
+        options.ListenAnyIP(int.Parse(port));
+    });
+}
+
 var configuration = builder.Configuration;
 var services = builder.Services;
 
@@ -20,6 +32,13 @@ services.AddRazorPages();
 services.AddHttpContextAccessor();
 
 services.AddHostedService<OpeniddictClientInitializer>();
+
+// Forwarded headers for reverse proxy, useful for https redirection on Heroku and Railway.
+// Reference: https://stackoverflow.com/questions/43749236/net-core-x-forwarded-proto-not-working
+services.Configure<ForwardedHeadersOptions>(options =>
+{
+    options.ForwardedHeaders = ForwardedHeaders.XForwardedProto;
+});
 
 services.AddSwaggerDocument(options =>
 {
@@ -137,6 +156,14 @@ services
     });
 
 var app = builder.Build();
+
+app.UseForwardedHeaders();
+
+// Only use https redirection when ASPNETCORE_HTTPS_PORT environtment variable available.
+if (!string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable("ASPNETCORE_HTTPS_PORT")))
+{
+    app.UseHttpsRedirection();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

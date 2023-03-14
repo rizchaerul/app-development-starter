@@ -14,6 +14,9 @@ public partial class User
     [Column("id")]
     public Guid Id { get; set; }
 
+    [Column("blob_id")]
+    public Guid? BlobId { get; set; }
+
     [Column("email")]
     public string Email { get; set; } = null!;
 
@@ -25,4 +28,8 @@ public partial class User
 
     [Column("modified")]
     public DateTime Modified { get; set; }
+
+    [ForeignKey("BlobId")]
+    [InverseProperty("Users")]
+    public virtual Blob? Blob { get; set; }
 }

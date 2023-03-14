@@ -10,7 +10,7 @@
       "request": "launch",
       "preLaunchTask": "build",
       // If you have changed target frameworks, make sure to update the program path.
-      "program": "${workspaceFolder}/WebService/bin/Debug/net7.0/WebService.dll",
+      "program": "${workspaceFolder}/WebService/bin/Debug/net6.0/WebService.dll",
       "args": [],
       "cwd": "${workspaceFolder}/WebService",
       "stopAtEntry": false,

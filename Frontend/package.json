@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "bootstrap": "^5.2.3",
+    "date-fns": "^2.29.3",
     "jotai": "^2.0.3",
     "next": "^13.2.3",
     "oidc-client": "^1.11.5",

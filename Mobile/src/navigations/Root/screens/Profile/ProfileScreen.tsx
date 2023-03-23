@@ -1,24 +1,24 @@
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import { FC } from "react";
-import { RootNavigationStackScreenProps } from "../../RootNavigationStack";
+import { RootNavigationStackScreenProps } from "../../RootStackNavigation";
 import { AllPostScreen } from "./AllPostScreen";
 import { FavoritePostScreen } from "./FavoritePostScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
 export const ProfileScreen: FC<
-    RootNavigationStackScreenProps<"ProfileScreen">
+    RootNavigationStackScreenProps<"Profile">
 > = () => {
     return (
         <Tab.Navigator>
             <Tab.Screen
-                name="AllPostScreen"
+                name="AllPost"
                 component={AllPostScreen}
                 options={{ title: "All" }}
             />
 
             <Tab.Screen
-                name="FavoritePostScreen"
+                name="FavoritePost"
                 component={FavoritePostScreen}
                 options={{ title: "Favorite" }}
             />

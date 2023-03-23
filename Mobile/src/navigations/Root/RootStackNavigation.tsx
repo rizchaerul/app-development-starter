@@ -1,21 +1,21 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import {
     createNativeStackNavigator,
-    NativeStackScreenProps
+    NativeStackScreenProps,
 } from "@react-navigation/native-stack";
 import { FC, Fragment } from "react";
 import { Pallete } from "../../constants/Pallete";
-import { RootNavigationStackParams } from "./RootNavigationStackParams";
-import { HomeScreen } from "./screens/HomeScreen";
+import { BottomTabNavigation } from "../BottomTab/BottomTabNavigation";
+import { RootStackNavigationParams } from "./RootStackNavigationParams";
 import { ProfileScreen } from "./screens/Profile/ProfileScreen";
 
 export type RootNavigationStackScreenProps<
-    T extends keyof RootNavigationStackParams
-> = NativeStackScreenProps<RootNavigationStackParams, T>;
+    T extends keyof RootStackNavigationParams
+> = NativeStackScreenProps<RootStackNavigationParams, T>;
 
-const Stack = createNativeStackNavigator<RootNavigationStackParams>();
+const Stack = createNativeStackNavigator<RootStackNavigationParams>();
 
-export const RootNavigationStack: FC = () => {
+export const RootStackNavigation: FC = () => {
     return (
         <Fragment>
             <NavigationContainer
@@ -30,15 +30,14 @@ export const RootNavigationStack: FC = () => {
             >
                 <Stack.Navigator>
                     <Stack.Screen
-                        name="HomeScreen"
-                        component={HomeScreen}
+                        name="BottomTabNavigation"
+                        component={BottomTabNavigation}
                         options={{
-                            headerTransparent: true,
-                            title: "",
+                            headerShown: false,
                         }}
                     />
                     <Stack.Screen
-                        name="ProfileScreen"
+                        name="Profile"
                         component={ProfileScreen}
                         options={{
                             title: "Profile",

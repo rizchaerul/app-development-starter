@@ -1,9 +1,9 @@
 import { FC } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
-import { RootNavigationStackScreenProps } from "../RootNavigationStack";
+import { BottomTabNavigationScreenProps } from "../BottomTabNavigation";
 
-export const HomeScreen: FC<RootNavigationStackScreenProps<"HomeScreen">> = (
+export const HomeScreen: FC<BottomTabNavigationScreenProps<"Home">> = (
     props
 ) => {
     return (
@@ -12,7 +12,7 @@ export const HomeScreen: FC<RootNavigationStackScreenProps<"HomeScreen">> = (
                 mode="contained"
                 contentStyle={{ height: 48 }}
                 className="mx-4 w-24"
-                onPress={() => props.navigation.navigate("ProfileScreen")}
+                onPress={() => props.navigation.navigate("Profile")}
             >
                 Profile
             </Button>

@@ -9,5 +9,5 @@ export const Theme: MD2Theme = {
         accent: Pallete.primary,
         background: Pallete.background,
     },
-    roundness: 12,
+    roundness: 9999,
 };

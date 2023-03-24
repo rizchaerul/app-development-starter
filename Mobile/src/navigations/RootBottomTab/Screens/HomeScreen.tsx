@@ -8,11 +8,20 @@ export const HomeScreen: FC<RootBottomTabScreenProps<"Home">> = (props) => {
         <View className="flex-1 justify-center items-center">
             <Button
                 mode="contained"
+                className="mx-4 w-32 mb-4"
                 contentStyle={{ height: 48 }}
-                className="mx-4 w-24"
                 onPress={() => props.navigation.navigate("Profile")}
             >
                 Profile
+            </Button>
+
+            <Button
+                mode="contained"
+                className="mx-4 w-32"
+                contentStyle={{ height: 48 }}
+                onPress={() => props.navigation.navigate("History")}
+            >
+                History
             </Button>
         </View>
     );

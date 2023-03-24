@@ -7,6 +7,7 @@ import { FC, Fragment } from "react";
 import { Pallete } from "../../constants/Pallete";
 import { RootBottomTabNavigator } from "../RootBottomTab/RootBottomTabNavigator";
 import { RootStackParamList } from "./RootStackParamList";
+import { HistoryScreen } from "./screens/HistoryScreen";
 import { ProfileScreen } from "./screens/Profile/ProfileScreen";
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
@@ -35,12 +36,22 @@ export const RootStackNavigator: FC = () => {
                             headerShown: false,
                         }}
                     />
+
                     <Stack.Screen
                         name="Profile"
                         component={ProfileScreen}
                         options={{
                             title: "Profile",
                             headerTitleAlign: "center",
+                            headerShadowVisible: false,
+                        }}
+                    />
+
+                    <Stack.Screen
+                        name="History"
+                        component={HistoryScreen}
+                        options={{
+                            title: "History",
                             headerShadowVisible: false,
                         }}
                     />

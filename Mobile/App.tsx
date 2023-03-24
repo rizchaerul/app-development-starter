@@ -1,6 +1,8 @@
+import { PortalProvider } from "@gorhom/portal";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
-import { Fragment, useEffect } from "react";
+import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { Provider as PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Pallete } from "./src/constants/Pallete";
@@ -13,14 +15,16 @@ export default function App() {
     }, []);
 
     return (
-        <Fragment>
+        <SafeAreaProvider>
             <StatusBar style="light" backgroundColor={Pallete.primaryVariant} />
 
-            <SafeAreaProvider>
-                <PaperProvider theme={Theme}>
-                    <RootStackNavigator />
-                </PaperProvider>
-            </SafeAreaProvider>
-        </Fragment>
+            <PaperProvider theme={Theme}>
+                <GestureHandlerRootView className="flex-1">
+                    <PortalProvider>
+                        <RootStackNavigator />
+                    </PortalProvider>
+                </GestureHandlerRootView>
+            </PaperProvider>
+        </SafeAreaProvider>
     );
 }

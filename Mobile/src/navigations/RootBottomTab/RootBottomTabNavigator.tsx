@@ -1,18 +1,19 @@
 import { Ionicons } from "@expo/vector-icons";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import { NativeStackScreenProps } from "@react-navigation/native-stack";
+import {
+    BottomTabScreenProps,
+    createBottomTabNavigator,
+} from "@react-navigation/bottom-tabs";
 import { FC, Fragment } from "react";
-import { BottomTabNavigationParams } from "./BottomTabNavigationParams";
+import { RootBottomTabParamList } from "./RootBottomTabParamList";
 import { HomeScreen } from "./Screens/HomeScreen";
 import { SettingsScreen } from "./Screens/SettingsScreen";
 
-export type BottomTabNavigationScreenProps<
-    T extends keyof BottomTabNavigationParams
-> = NativeStackScreenProps<BottomTabNavigationParams, T>;
+export type RootBottomTabScreenProps<T extends keyof RootBottomTabParamList> =
+    BottomTabScreenProps<RootBottomTabParamList, T>;
 
-const Tab = createBottomTabNavigator<BottomTabNavigationParams>();
+const Tab = createBottomTabNavigator<RootBottomTabParamList>();
 
-export const BottomTabNavigation: FC = () => {
+export const RootBottomTabNavigator: FC = () => {
     return (
         <Fragment>
             <Tab.Navigator

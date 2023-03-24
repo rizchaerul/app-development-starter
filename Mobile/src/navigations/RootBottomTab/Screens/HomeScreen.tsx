@@ -1,11 +1,9 @@
 import { FC } from "react";
 import { View } from "react-native";
 import { Button } from "react-native-paper";
-import { BottomTabNavigationScreenProps } from "../BottomTabNavigation";
+import { RootBottomTabScreenProps } from "../RootBottomTabNavigator";
 
-export const HomeScreen: FC<BottomTabNavigationScreenProps<"Home">> = (
-    props
-) => {
+export const HomeScreen: FC<RootBottomTabScreenProps<"Home">> = (props) => {
     return (
         <View className="flex-1 justify-center items-center">
             <Button

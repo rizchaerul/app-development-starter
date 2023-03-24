@@ -5,7 +5,7 @@ import { Provider as PaperProvider } from "react-native-paper";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Pallete } from "./src/constants/Pallete";
 import { Theme } from "./src/constants/Theme";
-import { RootStackNavigation } from "./src/navigations/Root/RootStackNavigation";
+import { RootStackNavigator } from "./src/navigations/Root/RootStackNavigator";
 
 export default function App() {
     useEffect(() => {
@@ -18,7 +18,7 @@ export default function App() {
 
             <SafeAreaProvider>
                 <PaperProvider theme={Theme}>
-                    <RootStackNavigation />
+                    <RootStackNavigator />
                 </PaperProvider>
             </SafeAreaProvider>
         </Fragment>

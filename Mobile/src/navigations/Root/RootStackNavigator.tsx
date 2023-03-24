@@ -5,17 +5,16 @@ import {
 } from "@react-navigation/native-stack";
 import { FC, Fragment } from "react";
 import { Pallete } from "../../constants/Pallete";
-import { BottomTabNavigation } from "../BottomTab/BottomTabNavigation";
-import { RootStackNavigationParams } from "./RootStackNavigationParams";
+import { RootBottomTabNavigator } from "../RootBottomTab/RootBottomTabNavigator";
+import { RootStackParamList } from "./RootStackParamList";
 import { ProfileScreen } from "./screens/Profile/ProfileScreen";
 
-export type RootNavigationStackScreenProps<
-    T extends keyof RootStackNavigationParams
-> = NativeStackScreenProps<RootStackNavigationParams, T>;
+export type RootStackScreenProps<T extends keyof RootStackParamList> =
+    NativeStackScreenProps<RootStackParamList, T>;
 
-const Stack = createNativeStackNavigator<RootStackNavigationParams>();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
-export const RootStackNavigation: FC = () => {
+export const RootStackNavigator: FC = () => {
     return (
         <Fragment>
             <NavigationContainer
@@ -30,8 +29,8 @@ export const RootStackNavigation: FC = () => {
             >
                 <Stack.Navigator>
                     <Stack.Screen
-                        name="BottomTabNavigation"
-                        component={BottomTabNavigation}
+                        name="RootBottomTabNavigator"
+                        component={RootBottomTabNavigator}
                         options={{
                             headerShown: false,
                         }}

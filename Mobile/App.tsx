@@ -1,4 +1,3 @@
-import { PortalProvider } from "@gorhom/portal";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -18,13 +17,11 @@ export default function App() {
         <SafeAreaProvider>
             <StatusBar style="light" backgroundColor={Pallete.primaryVariant} />
 
-            <PaperProvider theme={Theme}>
-                <GestureHandlerRootView className="flex-1">
-                    <PortalProvider>
-                        <RootStackNavigator />
-                    </PortalProvider>
-                </GestureHandlerRootView>
-            </PaperProvider>
+            <GestureHandlerRootView className="flex-1">
+                <PaperProvider theme={Theme}>
+                    <RootStackNavigator />
+                </PaperProvider>
+            </GestureHandlerRootView>
         </SafeAreaProvider>
     );
 }

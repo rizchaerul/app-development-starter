@@ -1,8 +1,7 @@
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
-import { Portal } from "@gorhom/portal";
 import { FC, Fragment, useRef } from "react";
 import { View } from "react-native";
-import { Button, Text } from "react-native-paper";
+import { Button, Portal, Text } from "react-native-paper";
 import { generateShadow } from "../../../functions/generateShadow";
 import { RootStackScreenProps } from "../RootStackNavigator";
 

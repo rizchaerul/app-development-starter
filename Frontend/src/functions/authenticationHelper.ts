@@ -10,7 +10,12 @@ export async function silentLogin(setLoading?: (loading: boolean) => void) {
         await userManager.signinSilent();
     } catch (error) {
         console.error("error while signing in", error);
-        await userManager.signoutRedirect();
+
+        try {
+            await userManager.signoutRedirect();
+        } catch {
+            console.error("error while signing out", error);
+        }
     }
 
     setLoading && setLoading(false);

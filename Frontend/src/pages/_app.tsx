@@ -12,8 +12,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
 
     const [getAppLoading, setAppLoading, appLoading] = useAppLoading("_app");
-    const [getAppLoadingLogin, setAppLoadingLogin] =
-        useAppLoading("silentLogin");
 
     const [ready, setReady] = useState(false);
 
@@ -28,9 +26,11 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 setAppLoading(false);
             }
 
-            userManager.events.addAccessTokenExpiring(() => silentLogin());
+            userManager.events.addAccessTokenExpiring(() =>
+                silentLogin(setAppLoading)
+            );
             userManager.events.addAccessTokenExpired(() =>
-                silentLogin(setAppLoadingLogin)
+                silentLogin(setAppLoading, true)
             );
         })();
     }, []);
@@ -46,7 +46,6 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                     <Loading loading={appLoading} />
 
                     {!getAppLoading() &&
-                        !getAppLoadingLogin() &&
                         getLayout(<Component {...pageProps} />)}
                 </Fragment>
             )}

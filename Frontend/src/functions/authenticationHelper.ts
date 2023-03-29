@@ -1,7 +1,12 @@
 import { createUserManager } from "./createUserManager";
 
-export async function silentLogin(setLoading?: (loading: boolean) => void) {
-    setLoading && setLoading(true);
+export async function silentLogin(
+    setLoading: (loading: boolean) => void,
+    withLoading?: boolean
+) {
+    if (withLoading) {
+        setLoading(true);
+    }
 
     const userManager = createUserManager();
 
@@ -18,5 +23,5 @@ export async function silentLogin(setLoading?: (loading: boolean) => void) {
         }
     }
 
-    setLoading && setLoading(false);
+    setLoading(false);
 }

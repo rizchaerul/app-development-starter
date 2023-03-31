@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import * as NavigationBar from "expo-navigation-bar";
 import { StatusBar } from "expo-status-bar";
 import { useEffect } from "react";
@@ -8,20 +9,33 @@ import { Pallete } from "./src/constants/Pallete";
 import { Theme } from "./src/constants/Theme";
 import { RootStackNavigator } from "./src/navigations/Root/RootStackNavigator";
 
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            cacheTime: 0,
+        },
+    },
+});
+
 export default function App() {
     useEffect(() => {
         NavigationBar.setBackgroundColorAsync("white");
     }, []);
 
     return (
-        <SafeAreaProvider>
-            <StatusBar style="light" backgroundColor={Pallete.primaryVariant} />
+        <QueryClientProvider client={queryClient}>
+            <SafeAreaProvider>
+                <StatusBar
+                    style="light"
+                    backgroundColor={Pallete.primaryDark}
+                />
 
-            <GestureHandlerRootView className="flex-1">
-                <PaperProvider theme={Theme}>
-                    <RootStackNavigator />
-                </PaperProvider>
-            </GestureHandlerRootView>
-        </SafeAreaProvider>
+                <GestureHandlerRootView className="flex-1">
+                    <PaperProvider theme={Theme}>
+                        <RootStackNavigator />
+                    </PaperProvider>
+                </GestureHandlerRootView>
+            </SafeAreaProvider>
+        </QueryClientProvider>
     );
 }

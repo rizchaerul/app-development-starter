@@ -6,8 +6,8 @@ export const Theme: MD2Theme = {
     colors: {
         ...MD2LightTheme.colors,
         primary: Pallete.primary,
-        accent: Pallete.primary,
+        accent: Pallete.accent,
         background: Pallete.background,
     },
-    roundness: 9999,
+    roundness: 6,
 };

@@ -1,7 +1,7 @@
 import { DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import {
-    createNativeStackNavigator,
     NativeStackScreenProps,
+    createNativeStackNavigator,
 } from "@react-navigation/native-stack";
 import { FC, Fragment } from "react";
 import { Pallete } from "../../constants/Pallete";
@@ -9,6 +9,7 @@ import { RootBottomTabNavigator } from "../RootBottomTab/RootBottomTabNavigator"
 import { RootStackParamList } from "./RootStackParamList";
 import { HistoryScreen } from "./screens/HistoryScreen";
 import { ProfileScreen } from "./screens/Profile/ProfileScreen";
+import { SpaceNewsScreen } from "./screens/SpaceNewsScreen";
 
 export type RootStackScreenProps<T extends keyof RootStackParamList> =
     NativeStackScreenProps<RootStackParamList, T>;
@@ -53,6 +54,14 @@ export const RootStackNavigator: FC = () => {
                         options={{
                             title: "History",
                             headerShadowVisible: false,
+                        }}
+                    />
+
+                    <Stack.Screen
+                        name="SpaceNews"
+                        component={SpaceNewsScreen}
+                        options={{
+                            title: "Space News",
                         }}
                     />
                 </Stack.Navigator>

@@ -7,7 +7,7 @@ using NSwag.AspNetCore;
 using NSwag.Generation.Processors.Security;
 using OpenIddict.Abstractions;
 using WebService.Contracts.Constants;
-using WebService.Contracts.Settings;
+using WebService.Contracts.Options;
 using WebService.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -44,8 +44,8 @@ services.AddSwaggerDocument(options =>
 {
     // Get settings from appsettings.json
     var openIdConnectOptions = configuration
-        .GetSection(OpenIdConnectSettings.SectionName)
-        .Get<OpenIdConnectSettings>();
+        .GetSection(OpenIdConnectOptions.OpenIdConnect)
+        .Get<OpenIdConnectOptions>();
 
     options.AddSecurity("bearer", new OpenApiSecurityScheme
     {

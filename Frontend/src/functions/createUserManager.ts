@@ -4,15 +4,17 @@ import {
     WebStorageStateStore,
 } from "oidc-client";
 
+const { apiUrl, webUrl } = getEnvirontmentVariables();
+
 const OpenIdConfiguration: UserManagerSettings = {
-    authority: process.env.NEXT_PUBLIC_API_URL,
+    authority: apiUrl,
     client_id: "frontend",
     scope: "openid offline_access email profile api",
     response_type: "code",
 
-    post_logout_redirect_uri: "http://localhost:3000",
-    redirect_uri: "http://localhost:3000/account/login-callback",
-    silent_redirect_uri: "http://localhost:3000/silent-renew.html",
+    post_logout_redirect_uri: `${webUrl}`,
+    redirect_uri: `${webUrl}/account/login-callback`,
+    silent_redirect_uri: `${webUrl}/silent-renew.html`,
 
     userStore:
         typeof window === "undefined"

@@ -19,7 +19,21 @@ namespace WebService.Services
             var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
             var manager = scope.ServiceProvider.GetRequiredService<IOpenIddictApplicationManager>();
 
-            if (await manager.FindByClientIdAsync("postman", cancellationToken) is null)
+            var postman = await manager.FindByClientIdAsync("postman", cancellationToken);
+            var frontend = await manager.FindByClientIdAsync("frontend", cancellationToken);
+
+            // if (postman != null)
+            // {
+            //     await manager.DeleteAsync(postman, cancellationToken);
+            //     postman = null;
+            // }
+            // if (frontend != null)
+            // {
+            //     await manager.DeleteAsync(frontend, cancellationToken);
+            //     frontend = null;
+            // }
+
+            if (postman is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {
@@ -44,7 +58,7 @@ namespace WebService.Services
                 }, cancellationToken);
             }
 
-            if (await manager.FindByClientIdAsync("frontend", cancellationToken) is null)
+            if (frontend is null)
             {
                 await manager.CreateAsync(new OpenIddictApplicationDescriptor
                 {

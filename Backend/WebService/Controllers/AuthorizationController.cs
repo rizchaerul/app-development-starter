@@ -120,9 +120,10 @@ namespace WebService.Controllers
                 ));
             }
 
-            return Ok(new
+            return Ok(new Dictionary<string, object>
             {
-                Sub = user.Id,
+                [OpenIddictConstants.Claims.Subject] = user.Id,
+                [OpenIddictConstants.Claims.Name] = user.Name,
             });
         }
 

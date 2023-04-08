@@ -1,4 +1,4 @@
-namespace WebService.Contracts.ResponseModels
+namespace WebService.Contracts.Responses
 {
     public class UserListItemResponse
     {

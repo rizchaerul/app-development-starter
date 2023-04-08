@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebService.Contracts.RequestModels
+namespace WebService.Contracts.Requests
 {
     public class RegisterRequest
     {

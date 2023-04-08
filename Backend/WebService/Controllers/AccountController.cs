@@ -4,8 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using OpenIddict.Validation.AspNetCore;
 using WebService.Contracts.Constants;
-using WebService.Contracts.RequestModels;
-using WebService.Contracts.ResponseModels;
+using WebService.Contracts.Requests;
+using WebService.Contracts.Responses;
 
 namespace WebService.Controllers
 {

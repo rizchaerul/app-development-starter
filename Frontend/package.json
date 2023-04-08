@@ -6,6 +6,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tanstack/react-query": "^4.28.0",
+    "axios": "^1.3.5",
     "bootstrap": "^5.2.3",
     "date-fns": "^2.29.3",
     "jotai": "^2.0.3",

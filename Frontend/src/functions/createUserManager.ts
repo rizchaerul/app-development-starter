@@ -3,6 +3,7 @@ import {
     UserManagerSettings,
     WebStorageStateStore,
 } from "oidc-client";
+import { getEnvirontmentVariables } from "./getEnvirontmentVariables";
 
 const { apiUrl, webUrl } = getEnvirontmentVariables();
 

@@ -1,7 +1,8 @@
 import { ApiClient } from "src/clients/ApiClient";
 import { createUserManager } from "./createUserManager";
+import { getEnvirontmentVariables } from "./getEnvirontmentVariables";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_URL;
+const { apiUrl } = getEnvirontmentVariables();
 
 function createFetcher(bearerToken: string) {
     function fetchWithAuth(
@@ -40,8 +41,8 @@ export async function createApiClientWithAuth(): Promise<ApiClient> {
         }
 
         const customFetch = createFetcher(user.access_token);
-        return new ApiClient(baseUrl, customFetch);
+        return new ApiClient(apiUrl, customFetch);
     }
 
-    return new ApiClient(baseUrl);
+    return new ApiClient(apiUrl);
 }

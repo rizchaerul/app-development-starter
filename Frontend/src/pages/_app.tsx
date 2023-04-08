@@ -1,3 +1,4 @@
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Head from "next/head";
 import { Fragment, useEffect, useState } from "react";
 import { Loading } from "src/components/Loading";
@@ -7,6 +8,8 @@ import { useAppLoading } from "src/hooks/useAppLoading";
 import { AppPropsWithLayout } from "src/types/AppPropsWithLayout";
 
 import "../styles/site.scss";
+
+const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
     const getLayout = Component.getLayout ?? ((page) => page);
@@ -41,14 +44,16 @@ export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
                 <title>Frontend</title>
             </Head>
 
-            {ready && (
-                <Fragment>
-                    <Loading loading={appLoading} />
+            <QueryClientProvider client={queryClient}>
+                {ready && (
+                    <Fragment>
+                        <Loading loading={appLoading} />
 
-                    {!getAppLoading() &&
-                        getLayout(<Component {...pageProps} />)}
-                </Fragment>
-            )}
+                        {!getAppLoading() &&
+                            getLayout(<Component {...pageProps} />)}
+                    </Fragment>
+                )}
+            </QueryClientProvider>
         </Fragment>
     );
 }

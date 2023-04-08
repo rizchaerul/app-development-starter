@@ -28,6 +28,7 @@ namespace WebService.Controllers
             var users = await _db.Users
                 .Select(x => new UserListItemResponse
                 {
+                    Name = x.Name,
                     Email = x.Email,
                 })
                 .Skip(perPage * (page - 1))
@@ -45,6 +46,7 @@ namespace WebService.Controllers
                 Id = Guid.NewGuid(),
                 Email = request.Email,
                 Password = request.Password,
+                Name = request.Name,
             };
 
             _db.Users.Add(newUser);

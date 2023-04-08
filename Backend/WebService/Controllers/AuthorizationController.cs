@@ -100,9 +100,8 @@ namespace WebService.Controllers
             }
 
             var id = result.Principal.FindFirstValue(ClaimTypes.NameIdentifier);
-            var email = result.Principal.FindFirstValue(ClaimTypes.Email);
 
-            if (id == null || email == null)
+            if (id == null)
             {
                 return BadRequest();
             }
@@ -112,7 +111,6 @@ namespace WebService.Controllers
             {
                 // 'subject' claim which is required
                 new Claim(OpenIddictConstants.Claims.Subject, id),
-                new Claim(OpenIddictConstants.Claims.Email, email).SetDestinations(OpenIddictConstants.Destinations.AccessToken),
             };
 
             var claimsIdentity = new ClaimsIdentity(claims, OpenIddictServerAspNetCoreDefaults.AuthenticationScheme);
@@ -145,7 +143,6 @@ namespace WebService.Controllers
             return Ok(new
             {
                 Sub = user?.Id,
-                user?.Email,
             });
         }
 

@@ -59,7 +59,6 @@ namespace WebService.Pages.Account
 
             var claims = new List<Claim>
             {
-                new Claim(ClaimTypes.Email, Email),
                 new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
             };
 

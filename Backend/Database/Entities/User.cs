@@ -17,6 +17,9 @@ public partial class User
     [Column("blob_id")]
     public Guid? BlobId { get; set; }
 
+    [Column("name")]
+    public string Name { get; set; } = null!;
+
     [Column("email")]
     public string Email { get; set; } = null!;
 

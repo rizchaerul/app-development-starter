@@ -7,7 +7,6 @@ import { FC, Fragment } from "react";
 import { Pallete } from "../../constants/Pallete";
 import { RootBottomTabNavigator } from "../RootBottomTab/RootBottomTabNavigator";
 import { RootStackParamList } from "./RootStackParamList";
-import { HistoryScreen } from "./screens/HistoryScreen";
 import { ProfileScreen } from "./screens/Profile/ProfileScreen";
 import { SpaceNewsScreen } from "./screens/SpaceNewsScreen";
 
@@ -29,7 +28,12 @@ export const RootStackNavigator: FC = () => {
                     },
                 }}
             >
-                <Stack.Navigator>
+                <Stack.Navigator
+                    screenOptions={{
+                        statusBarColor: Pallete.primaryDark,
+                        navigationBarColor: "white",
+                    }}
+                >
                     <Stack.Screen
                         name="RootBottomTabNavigator"
                         component={RootBottomTabNavigator}
@@ -44,15 +48,6 @@ export const RootStackNavigator: FC = () => {
                         options={{
                             title: "Profile",
                             headerTitleAlign: "center",
-                            headerShadowVisible: false,
-                        }}
-                    />
-
-                    <Stack.Screen
-                        name="History"
-                        component={HistoryScreen}
-                        options={{
-                            title: "History",
                             headerShadowVisible: false,
                         }}
                     />

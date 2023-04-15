@@ -17,15 +17,6 @@ export const HomeScreen: FC<RootBottomTabScreenProps<"Home">> = (props) => {
 
             <Button
                 mode="contained"
-                className="mx-4 w-48 mb-4"
-                contentStyle={{ height: 48 }}
-                onPress={() => props.navigation.navigate("History")}
-            >
-                History
-            </Button>
-
-            <Button
-                mode="contained"
                 className="mx-4 w-48"
                 contentStyle={{ height: 48 }}
                 onPress={() => props.navigation.navigate("SpaceNews")}

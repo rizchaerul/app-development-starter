@@ -17,12 +17,16 @@ const Page: NextPage = () => {
             setUser(user ?? undefined);
 
             if (user) {
-                const client = await createApiClientWithAuth();
-                const result = await client.account_GetUsers(
-                    undefined,
-                    undefined
-                );
-                console.log(result);
+                try {
+                    const client = await createApiClientWithAuth();
+                    const result = await client.account_GetUsers(
+                        undefined,
+                        undefined
+                    );
+                    console.log(result);
+                } catch (err) {
+                    console.error(err);
+                }
             }
         })();
     }, []);
@@ -44,7 +48,7 @@ const Page: NextPage = () => {
             <div className="d-flex vh-100 justify-content-center align-items-center">
                 {user && (
                     <div>
-                        <h6>Welcome, {user.profile.email}</h6>
+                        <h6>Welcome, {user.profile.name}</h6>
                         <button
                             className="btn btn-primary w-100"
                             onClick={logout}

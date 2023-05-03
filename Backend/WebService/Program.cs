@@ -1,3 +1,4 @@
+using ClosedXML.Graphics;
 using Database.Entities;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -9,6 +10,11 @@ using OpenIddict.Abstractions;
 using WebService.Contracts.Constants;
 using WebService.Contracts.Options;
 using WebService.Services;
+
+// "Fallback font name" will likely be something like "DejaVu Sans" or "Tahoma"
+// It is not a path to font file, but a font name.
+// See: https://closedxml.readthedocs.io/en/latest/tips/missing-font.html
+ClosedXML.Excel.LoadOptions.DefaultGraphicEngine = new DefaultGraphicEngine("Carlito");
 
 var builder = WebApplication.CreateBuilder(args);
 

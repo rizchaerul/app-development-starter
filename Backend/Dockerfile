@@ -13,6 +13,8 @@ FROM mcr.microsoft.com/dotnet/aspnet:6.0-alpine
 WORKDIR /app
 COPY --from=build-env /app/out .
 
+RUN apk update && apk add font-carlito
+
 ENV ASPNETCORE_HTTPS_PORT 443
 
 ENTRYPOINT [ "dotnet", "WebService.dll" ]

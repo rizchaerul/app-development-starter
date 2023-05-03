@@ -1,5 +1,6 @@
 using ClosedXML.Excel;
 using Microsoft.AspNetCore.Mvc;
+using SixLabors.Fonts;
 
 namespace WebService.Controllers
 {
@@ -7,6 +8,12 @@ namespace WebService.Controllers
     [ApiController]
     public class ExcelController : ControllerBase
     {
+        [HttpGet("get-fonts")]
+        public ActionResult GetFonts()
+        {
+            return Ok(SystemFonts.Collection.Families.Select(x => new { x.Name }));
+        }
+
         [HttpGet]
         public ActionResult Get()
         {
@@ -28,7 +35,7 @@ namespace WebService.Controllers
             workbook.SaveAs(stream);
 
             stream.Position = 0;
-            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Excel File");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Excel File.xlsx");
         }
     }
 }

@@ -1,24 +1,25 @@
 import { NextPage } from "next";
 import { User, UserManager } from "oidc-client";
-import { Fragment, useEffect, useState } from "react";
-import { createApiClientWithAuth } from "src/functions/createApiClientWithAuth";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { createAuthorizedApiClient } from "src/functions/createAuthorizedApiClient";
 import { createUserManager } from "src/functions/createUserManager";
 
 const Page: NextPage = () => {
-    const [userManager, setUserManager] = useState<UserManager>();
     const [user, setUser] = useState<User>();
+
+    const userManagerRef = useRef<UserManager>();
 
     useEffect(() => {
         (async () => {
             const userManager = createUserManager();
-            setUserManager(userManager);
+            userManagerRef.current = userManager;
 
             const user = await userManager.getUser();
             setUser(user ?? undefined);
 
             if (user) {
                 try {
-                    const client = await createApiClientWithAuth();
+                    const client = await createAuthorizedApiClient();
                     const result = await client.account_GetUsers(
                         undefined,
                         undefined
@@ -31,16 +32,12 @@ const Page: NextPage = () => {
         })();
     }, []);
 
-    async function logout() {
-        if (user) {
-            await userManager?.signoutRedirect();
-        }
+    function logout() {
+        userManagerRef.current?.signoutRedirect();
     }
 
-    async function login() {
-        if (!user) {
-            await userManager?.signinRedirect();
-        }
+    function login() {
+        userManagerRef.current?.signinRedirect();
     }
 
     return (

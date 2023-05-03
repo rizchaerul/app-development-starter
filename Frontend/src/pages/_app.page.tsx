@@ -12,11 +12,11 @@ import "../styles/site.scss";
 const queryClient = new QueryClient();
 
 export default function MyApp({ Component, pageProps }: AppPropsWithLayout) {
-    const getLayout = Component.getLayout ?? ((page) => page);
+    const [ready, setReady] = useState(false);
 
     const [getAppLoading, setAppLoading, appLoading] = useAppLoading("_app");
 
-    const [ready, setReady] = useState(false);
+    const getLayout = Component.getLayout ?? ((page) => page);
 
     useEffect(() => {
         setReady(true);

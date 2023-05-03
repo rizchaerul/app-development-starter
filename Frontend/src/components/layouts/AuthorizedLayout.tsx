@@ -1,11 +1,11 @@
 import Error from "next/error";
 import { FC, Fragment, PropsWithChildren, useEffect, useState } from "react";
 import { createUserManager } from "src/functions/createUserManager";
-import { useAppLoading } from "src/hooks/useAppLoading";
 
 export const AuthorizedLayout: FC<PropsWithChildren> = (props) => {
     const [authorized, setAuthorized] = useState(false);
-    const [getAppLoading, setAppLoading] = useAppLoading("AuthorizedLayout");
+
+    const [getAppLoading, setAppLoading] = useState(true);
 
     useEffect(() => {
         (async () => {
@@ -28,7 +28,7 @@ export const AuthorizedLayout: FC<PropsWithChildren> = (props) => {
         <Fragment>
             {authorized && props.children}
 
-            {!getAppLoading() && !authorized && (
+            {!getAppLoading && !authorized && (
                 <Error
                     statusCode={401}
                     title="You're not authorized to access this page"

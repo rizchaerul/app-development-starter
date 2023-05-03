@@ -30,7 +30,7 @@ function createFetcher(bearerToken: string) {
     };
 }
 
-export async function createApiClientWithAuth(): Promise<ApiClient> {
+export async function createAuthorizedApiClient(): Promise<ApiClient> {
     const userManager = createUserManager();
     let user = await userManager.getUser();
 

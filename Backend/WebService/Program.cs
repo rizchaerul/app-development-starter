@@ -11,10 +11,12 @@ using WebService.Contracts.Constants;
 using WebService.Contracts.Options;
 using WebService.Services;
 
+var corsPolicy = "CorsPolicy";
+
 // "Fallback font name" will likely be something like "DejaVu Sans" or "Tahoma"
 // It is not a path to font file, but a font name.
 // See: https://closedxml.readthedocs.io/en/latest/tips/missing-font.html
-ClosedXML.Excel.LoadOptions.DefaultGraphicEngine = new DefaultGraphicEngine("Carlito");
+// ClosedXML.Excel.LoadOptions.DefaultGraphicEngine = new DefaultGraphicEngine("Carlito");
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,6 +34,14 @@ if (!string.IsNullOrWhiteSpace(port))
 var configuration = builder.Configuration;
 var services = builder.Services;
 
+// Get settings from appsettings.json
+var openIdConnectOptions = configuration
+    .GetSection(OpenIdConnectOptions.OpenIdConnect)
+    .Get<OpenIdConnectOptions>();
+
+// Register configuration in services
+services.Configure<OpenIddictOptions>(configuration.GetSection(OpenIddictOptions.OpenIddict));
+
 // Add services to the container.
 services.AddControllers();
 services.AddRazorPages();
@@ -48,11 +58,6 @@ services.Configure<ForwardedHeadersOptions>(options =>
 
 services.AddSwaggerDocument(options =>
 {
-    // Get settings from appsettings.json
-    var openIdConnectOptions = configuration
-        .GetSection(OpenIdConnectOptions.OpenIdConnect)
-        .Get<OpenIdConnectOptions>();
-
     options.AddSecurity("bearer", new OpenApiSecurityScheme
     {
         AuthorizationUrl = $"{openIdConnectOptions?.Authority}/connect/authorize",
@@ -72,7 +77,7 @@ services.AddSwaggerDocument(options =>
 
 services.AddCors(options =>
 {
-    options.AddPolicy(name: ApplicationConstants.CorsPolicy, policy =>
+    options.AddPolicy(name: corsPolicy, policy =>
     {
         policy.AllowAnyOrigin();
         policy.AllowAnyHeader();
@@ -98,7 +103,7 @@ services
 
 services.AddAuthorization(options =>
 {
-    options.AddPolicy(ApplicationConstants.ApiScopePolicy, policy =>
+    options.AddPolicy(ApplicationConstants.AuthorizationPolicy.ApiScopePolicy, policy =>
     {
         policy.RequireAuthenticatedUser();
         policy.RequireClaim(OpenIddictConstants.Claims.Private.Scope, "api");
@@ -179,7 +184,7 @@ if (app.Environment.IsDevelopment())
     {
         options.OAuth2Client = new OAuth2ClientSettings
         {
-            ClientId = "frontend",
+            ClientId = openIdConnectOptions.ClientId,
             ClientSecret = null,
             UsePkceWithAuthorizationCodeGrant = true,
         };
@@ -192,7 +197,7 @@ else if (!app.Environment.IsDevelopment())
 
 app.UseStaticFiles();
 app.UseRouting();
-app.UseCors(ApplicationConstants.CorsPolicy);
+app.UseCors(corsPolicy);
 app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();

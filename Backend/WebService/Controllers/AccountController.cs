@@ -22,7 +22,7 @@ namespace WebService.Controllers
         }
 
         [HttpGet]
-        [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Policy = ApplicationConstants.ApiScopePolicy)]
+        [Authorize(AuthenticationSchemes = OpenIddictValidationAspNetCoreDefaults.AuthenticationScheme, Policy = ApplicationConstants.AuthorizationPolicy.ApiScopePolicy)]
         public async Task<ActionResult<List<UserListItemResponse>>> GetUsers(int page = 1, int perPage = 1)
         {
             var users = await _db.Users
